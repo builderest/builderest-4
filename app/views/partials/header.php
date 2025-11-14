@@ -57,17 +57,28 @@
     </div>
     <div class="mobile-drawer" id="mobile-nav" data-mobile-drawer>
         <div class="drawer-header">
-            <span class="drawer-title">Menu</span>
             <button type="button" class="drawer-close" data-drawer-close aria-label="Close menu">
-                <span class="nav-toggle-bar"></span>
-                <span class="nav-toggle-bar"></span>
+                <span class="drawer-close-line"></span>
+                <span class="drawer-close-line"></span>
             </button>
+            <div class="drawer-brand">
+                <span class="drawer-logo">
+                    <img src="/assets/img/logo-light-theme.svg" alt="Builderest" width="40" height="40">
+                </span>
+                <div class="drawer-copy">
+                    <span class="brand-name">BUILDEReST</span>
+                    <span class="brand-tagline">Smart Home &amp; Business Solutions</span>
+                </div>
+            </div>
         </div>
         <nav class="drawer-nav" aria-label="Mobile">
             <ul class="drawer-list">
                 <li><a href="/">Home</a></li>
                 <li class="drawer-item has-children">
-                    <button type="button" data-drawer-accordion aria-expanded="false">Services</button>
+                    <button type="button" data-drawer-accordion aria-expanded="false">
+                        <span>Services</span>
+                        <span class="drawer-icon" aria-hidden="true">+</span>
+                    </button>
                     <ul class="drawer-sublist">
                         <li><a href="/services">All Services</a></li>
                         <li><a href="/services/tv-mounting">TV Mounting</a></li>
@@ -82,7 +93,10 @@
                 <li><a href="/projects">Projects</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li class="drawer-item has-children">
-                    <button type="button" data-drawer-accordion aria-expanded="false">Support</button>
+                    <button type="button" data-drawer-accordion aria-expanded="false">
+                        <span>Support</span>
+                        <span class="drawer-icon" aria-hidden="true">+</span>
+                    </button>
                     <ul class="drawer-sublist">
                         <li><a href="/support">Help Center</a></li>
                         <li><a href="/support#faqs">FAQs</a></li>

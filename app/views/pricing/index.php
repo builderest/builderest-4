@@ -17,16 +17,21 @@
         <div class="pricing-grid" data-pricing-grid>
             <?php foreach ($services as $service): ?>
                 <article class="pricing-card" data-category="<?php echo htmlspecialchars($service['category']); ?>">
-                    <h3><?php echo htmlspecialchars($service['name']); ?></h3>
-                    <p class="pricing-value">Starting at $<?php echo number_format($service['starting_price'], 2); ?></p>
-                    <ul>
-                        <?php foreach (array_slice(array_filter(preg_split('/\r?\n/', $service['features'])), 0, 5) as $feature): ?>
-                            <li><?php echo htmlspecialchars($feature); ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <div class="card-actions">
-                        <a class="btn btn-link" href="/services/<?php echo urlencode($service['slug']); ?>">Learn more</a>
-                        <a class="btn btn-small" href="/quote?service=<?php echo urlencode($service['slug']); ?>">Get a quote</a>
+                    <div class="pricing-card__glow"></div>
+                    <div class="pricing-card__inner">
+                        <header class="pricing-card__header">
+                            <h3><?php echo htmlspecialchars($service['name']); ?></h3>
+                            <p class="pricing-value">Starting at $<?php echo number_format($service['starting_price'], 2); ?></p>
+                        </header>
+                        <ul class="pricing-card__list">
+                            <?php foreach (array_slice(array_filter(preg_split('/\r?\n/', $service['features'])), 0, 5) as $feature): ?>
+                                <li><?php echo htmlspecialchars($feature); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <footer class="pricing-card__footer">
+                            <a class="pricing-card__link" href="/services/<?php echo urlencode($service['slug']); ?>">Learn more <span aria-hidden="true">→</span></a>
+                            <a class="pricing-card__cta" href="/quote?service=<?php echo urlencode($service['slug']); ?>">Get a free quote</a>
+                        </footer>
                     </div>
                 </article>
             <?php endforeach; ?>

@@ -22,21 +22,30 @@
                     echo '<span id="smart-cameras" class="category-anchor"></span>';
                 }
                 ?>
-                <article class="service-panel" id="<?= htmlspecialchars($service['slug']); ?>">
-                    <div class="panel-header">
-                        <span class="panel-icon"><img src="<?= htmlspecialchars($icon); ?>" alt="<?= htmlspecialchars($service['name']); ?> icon"></span>
-                        <div class="panel-meta">
-                            <a href="/services/<?= urlencode($service['slug']); ?>" class="panel-title"><?= htmlspecialchars($service['name']); ?></a>
-                            <?php if (!empty($service['category'])): ?>
-                                <span class="panel-category"><?= str_replace('-', ' ', htmlspecialchars($service['category'])); ?></span>
-                            <?php endif; ?>
+                <article class="service-card" id="<?= htmlspecialchars($service['slug']); ?>">
+                    <div class="service-card__glow"></div>
+                    <div class="service-card__inner">
+                        <div class="service-card__header">
+                            <span class="service-card__icon">
+                                <img src="<?= htmlspecialchars($icon); ?>" alt="<?= htmlspecialchars($service['name']); ?> icon">
+                            </span>
+                            <div class="service-card__meta">
+                                <?php if (!empty($service['category'])): ?>
+                                    <span class="service-card__category"><?= str_replace('-', ' ', htmlspecialchars($service['category'])); ?></span>
+                                <?php endif; ?>
+                                <span class="service-card__price">Starting at $<?= number_format((float) $service['starting_price'], 2); ?></span>
+                            </div>
                         </div>
-                        <span class="panel-price">Starting at $<?= number_format((float) $service['starting_price'], 2); ?></span>
-                    </div>
-                    <p class="panel-description"><?= htmlspecialchars($service['short_description']); ?></p>
-                    <div class="panel-actions">
-                        <a class="btn btn-link" href="/services/<?= urlencode($service['slug']); ?>">Learn More</a>
-                        <a class="btn btn-ghost" href="/quote?service=<?= urlencode($service['slug']); ?>">Get a Quote</a>
+                        <h3 class="service-card__title">
+                            <a href="/services/<?= urlencode($service['slug']); ?>"><?= htmlspecialchars($service['name']); ?></a>
+                        </h3>
+                        <p class="service-card__description"><?= htmlspecialchars($service['short_description']); ?></p>
+                        <div class="service-card__footer">
+                            <a class="service-card__link" href="/services/<?= urlencode($service['slug']); ?>">
+                                Read More <span aria-hidden="true">→</span>
+                            </a>
+                            <a class="service-card__cta" href="/quote?service=<?= urlencode($service['slug']); ?>">Get a free quote</a>
+                        </div>
                     </div>
                 </article>
             <?php endforeach; ?>
