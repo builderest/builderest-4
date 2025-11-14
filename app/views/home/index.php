@@ -1,48 +1,100 @@
-<section class="hero">
-    <div class="container hero-content">
-        <div class="hero-text">
-            <p class="eyebrow">Enterprise-grade protection</p>
-            <h1><?php echo htmlspecialchars($heroTitle); ?></h1>
-            <p class="lead"><?php echo htmlspecialchars($heroSubtitle); ?></p>
+<?php
+$highlightFeatures = [
+    'tv-mounting' => ['Precision placement & calibration', 'Clean cable management'],
+    'security-cameras' => ['4K & night vision ready', 'Remote monitoring setup'],
+    'projector-installation' => ['Custom screen alignment', 'Surround audio integration'],
+];
+$solutionAreas = [
+    ['anchor' => 'smart-lighting', 'title' => 'Automation', 'description' => 'Scene-based lighting, climate, and voice control for smarter living.'],
+    ['anchor' => 'security-cameras', 'title' => 'Security', 'description' => 'Surveillance, intrusion prevention, and rapid-response monitoring.'],
+    ['anchor' => 'network-hardening', 'title' => 'IT & Networking', 'description' => 'Robust wired and wireless networking for uninterrupted uptime.'],
+    ['anchor' => 'conference-rooms', 'title' => 'Business', 'description' => 'Conference, collaboration, and managed workplace technology.'],
+    ['anchor' => 'home-theater', 'title' => 'Residential', 'description' => 'Comfort, entertainment, and automation engineered for homes.'],
+    ['anchor' => 'tv-mounting', 'title' => 'Installations', 'description' => 'Audio/video installs, mounting, and custom fabrication.'],
+];
+$whyItems = [
+    ['title' => 'Certified Technicians', 'description' => 'Licensed experts with cross-disciplinary credentials delivering premium workmanship.'],
+    ['title' => '24/7 Remote Support', 'description' => 'Always-on monitoring with proactive alerts and rapid response.'],
+    ['title' => 'Custom Architectures', 'description' => 'Solutions tailored to your environment, scale, and compliance needs.'],
+    ['title' => 'Enterprise Security', 'description' => 'Zero-trust policies, encryption, and hardened deployments from day one.'],
+    ['title' => 'Seamless Integrations', 'description' => 'Connect disparate platforms into a unified, intuitive experience.'],
+    ['title' => 'Proven Delivery', 'description' => 'Documented playbooks to deploy, train, and support without disruption.'],
+];
+?>
+<section class="hero" data-hero>
+    <div class="hero-backdrop" aria-hidden="true"></div>
+    <div class="container hero-inner">
+        <div class="hero-copy">
+            <p class="eyebrow">Integrated protection &amp; automation</p>
+            <h1><?= htmlspecialchars($heroTitle); ?></h1>
+            <p class="lead"><?= htmlspecialchars($heroSubtitle); ?></p>
             <div class="hero-actions">
-                <a href="/quote" class="btn btn-primary">Get a Free Quote</a>
-                <a href="/services" class="btn btn-outline">View Services</a>
+                <a href="/quote" class="btn btn-cta">Get a Free Quote</a>
+                <a href="/services" class="btn btn-secondary">View Services</a>
             </div>
-            <div class="trust-metrics">
-                <div><strong>250+</strong> Smart homes secured</div>
-                <div><strong>99.9%</strong> System uptime</div>
-                <div><strong>24/7</strong> Remote monitoring</div>
-            </div>
+            <dl class="hero-metrics">
+                <div>
+                    <dt>Secure deployments</dt>
+                    <dd>250+</dd>
+                </div>
+                <div>
+                    <dt>Average uptime</dt>
+                    <dd>99.9%</dd>
+                </div>
+                <div>
+                    <dt>Support availability</dt>
+                    <dd>24/7</dd>
+                </div>
+            </dl>
         </div>
         <div class="hero-visual">
-            <div class="glow"></div>
-            <div class="panel">
-                <span>Live Status</span>
-                <strong>All networks operational</strong>
-                <p>Last sync: <?php echo date('H:i'); ?> UTC</p>
+            <div class="status-card">
+                <header>
+                    <span class="status-indicator" aria-hidden="true"></span>
+                    <span>Operations Center</span>
+                </header>
+                <strong>All systems optimal</strong>
+                <p>Last sync <?= date('H:i'); ?> UTC</p>
+                <ul>
+                    <li>Camera grid &bull; Online</li>
+                    <li>Access control &bull; Synced</li>
+                    <li>Automation scenes &bull; Active</li>
+                </ul>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section top-services">
+<section class="section highlight-services">
     <div class="container">
         <div class="section-heading">
             <h2>Top Installation Services</h2>
-            <p>Precision deployments engineered to perform from day one.</p>
+            <p>High-impact deployments engineered for reliability from the very first day.</p>
         </div>
         <div class="card-grid">
             <?php foreach ($topServices as $service): ?>
-                <article class="service-card">
-                    <div class="icon-badge">
-                        <img src="<?php echo htmlspecialchars($service['icon']); ?>" alt="<?php echo htmlspecialchars($service['name']); ?> icon">
+                <?php
+                $slug = $service['slug'];
+                $features = $highlightFeatures[$slug] ?? ['Tailored installation plan', 'Premium project support'];
+                $icon = !empty($service['icon']) ? $service['icon'] : '/assets/img/default-service.svg';
+                ?>
+                <article class="service-highlight">
+                    <div class="service-header">
+                        <span class="service-icon"><img src="<?= htmlspecialchars($icon); ?>" alt="<?= htmlspecialchars($service['name']); ?> icon"></span>
+                        <div>
+                            <h3><?= htmlspecialchars($service['name']); ?></h3>
+                            <p class="service-price">Starting at $<?= number_format((float) $service['starting_price'], 2); ?></p>
+                        </div>
                     </div>
-                    <h3><?php echo htmlspecialchars($service['name']); ?></h3>
-                    <p class="price">Starting at $<?php echo number_format($service['starting_price'], 2); ?></p>
-                    <p><?php echo htmlspecialchars($service['short_description']); ?></p>
-                    <div class="card-actions">
-                        <a class="btn btn-link" href="/services/<?php echo urlencode($service['slug']); ?>">Learn more</a>
-                        <a class="btn btn-small" href="/quote?service=<?php echo urlencode($service['slug']); ?>">Get a quote</a>
+                    <p class="service-description"><?= htmlspecialchars($service['short_description']); ?></p>
+                    <ul class="service-features">
+                        <?php foreach ($features as $feature): ?>
+                            <li><?= htmlspecialchars($feature); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <div class="service-actions">
+                        <a class="btn btn-link" href="/services/<?= urlencode($slug); ?>">Learn More</a>
+                        <a class="btn btn-ghost" href="/quote?service=<?= urlencode($slug); ?>">Get a Quote</a>
                     </div>
                 </article>
             <?php endforeach; ?>
@@ -50,39 +102,49 @@
     </div>
 </section>
 
-<section class="section service-overview">
+<section class="section solutions-overview" id="solutions">
     <div class="container">
         <div class="section-heading">
-            <h2>Every space. Every challenge. We have a blueprint.</h2>
-            <p>Integrated services for smart homes, resilient businesses, and future-ready operations.</p>
+            <h2>Solutions engineered for every environment</h2>
+            <p>From intelligent homes to resilient enterprises, Builderest delivers cohesive ecosystems that simply work.</p>
         </div>
-        <div class="grid-six">
-            <div class="overview-card">Smart Automation</div>
-            <div class="overview-card">Security &amp; Surveillance</div>
-            <div class="overview-card">Managed IT Support</div>
-            <div class="overview-card">Business Continuity</div>
-            <div class="overview-card">Residential Comfort</div>
-            <div class="overview-card">Audio &amp; Video Mastery</div>
-        </div>
-        <div class="centered">
-            <a href="/services" class="btn btn-primary">View all services</a>
+        <div class="solutions-grid">
+            <?php foreach ($solutionAreas as $area): ?>
+                <article class="solution-card">
+                    <span class="solution-icon" aria-hidden="true"></span>
+                    <h3><?= htmlspecialchars($area['title']); ?></h3>
+                    <p><?= htmlspecialchars($area['description']); ?></p>
+                    <a class="btn btn-link" href="/services#<?= urlencode($area['anchor']); ?>">View details</a>
+                </article>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
 
 <section class="section why-us">
-    <div class="container why-grid">
-        <div>
+    <div class="container">
+        <div class="section-heading">
             <h2>Why clients choose Builderest</h2>
-            <p>From consultation to deployment, we operate as an extension of your team with relentless focus on security, scalability, and delight.</p>
+            <p>We operate as an extension of your team, orchestrating the technology that protects and powers your spaces.</p>
         </div>
-        <ul class="bullet-list">
-            <li><strong>Certified experts:</strong> Veteran engineers and installers with multi-discipline credentials.</li>
-            <li><strong>Always-on support:</strong> Dedicated helpdesk and proactive monitoring 24/7.</li>
-            <li><strong>Future proof:</strong> Modular architecture ready for upgrades and integrations.</li>
-            <li><strong>Data privacy first:</strong> Encryption, compliance, and governance embedded into every solution.</li>
-            <li><strong>Rapid deployment:</strong> Proven playbooks to deliver outcomes faster.</li>
-        </ul>
+        <div class="benefits-grid">
+            <?php foreach ($whyItems as $item): ?>
+                <article class="benefit-card">
+                    <h3><?= htmlspecialchars($item['title']); ?></h3>
+                    <p><?= htmlspecialchars($item['description']); ?></p>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<section class="section cta-band">
+    <div class="container cta-inner">
+        <div>
+            <h2>Ready to upgrade your home or business?</h2>
+            <p>Let our specialists architect a solution tailored to your security, automation, and connectivity goals.</p>
+        </div>
+        <a class="btn btn-cta" href="/quote">Get a Free Quote</a>
     </div>
 </section>
 
@@ -90,15 +152,15 @@
     <div class="container">
         <div class="section-heading">
             <h2>Latest insights</h2>
-            <p>Thought leadership for technology decision makers.</p>
+            <p>Strategic guidance for leaders transforming their environments through smart technology.</p>
         </div>
         <div class="card-grid">
             <?php foreach ($posts as $post): ?>
                 <article class="post-card">
-                    <span class="post-date"><?php echo date('M d, Y', strtotime($post['created_at'])); ?></span>
-                    <h3><?php echo htmlspecialchars($post['title']); ?></h3>
-                    <p><?php echo htmlspecialchars($post['excerpt']); ?></p>
-                    <a class="btn btn-link" href="/blog/<?php echo urlencode($post['slug']); ?>">Read more</a>
+                    <span class="post-date"><?= date('M d, Y', strtotime($post['created_at'])); ?></span>
+                    <h3><?= htmlspecialchars($post['title']); ?></h3>
+                    <p><?= htmlspecialchars($post['excerpt']); ?></p>
+                    <a class="btn btn-link" href="/blog/<?= urlencode($post['slug']); ?>">Read more</a>
                 </article>
             <?php endforeach; ?>
         </div>
