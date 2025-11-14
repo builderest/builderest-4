@@ -1,0 +1,11 @@
+{
+    "name": "builderest/cms",
+    "description": "Builderest security and automation CMS",
+    "type": "project",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
