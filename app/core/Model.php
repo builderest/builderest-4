@@ -50,7 +50,7 @@ abstract class Model
         }
         $data[$this->primaryKey] = $id;
         $sql = 'UPDATE ' . $this->table . ' SET ' . implode(',', $set) . ' WHERE ' . $this->primaryKey . ' = :' . $this->primaryKey;
-        return Database::query($sql, $data)->rowCount() > 0;
+        return Database::query($sql, $data)->rowCount() >= 0;
     }
 
     public function delete($id): bool

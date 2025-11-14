@@ -18,7 +18,23 @@ class HomeController extends Controller
         $heroSubtitle = $settingModel->getValue('hero_subtitle', 'Experts in smart home, security, and business technology.');
 
         $services = $serviceModel->allOrdered();
-        $topServices = array_slice($services, 0, 3);
+
+        $topServiceSlugs = ['tv-mounting', 'security-cameras', 'projector-installation'];
+        $indexedServices = [];
+        foreach ($services as $service) {
+            $indexedServices[$service['slug']] = $service;
+        }
+
+        $topServices = [];
+        foreach ($topServiceSlugs as $slug) {
+            if (isset($indexedServices[$slug])) {
+                $topServices[] = $indexedServices[$slug];
+            }
+        }
+
+        if (count($topServices) < 3) {
+            $topServices = array_slice($services, 0, 3);
+        }
         $posts = $postModel->latest(3);
 
         $this->view('home/index', compact('services', 'topServices', 'posts', 'heroTitle', 'heroSubtitle'));

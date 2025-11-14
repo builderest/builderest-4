@@ -34,6 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (panel instanceof HTMLElement) {
                 panel.style.maxHeight = '0px';
             }
+            const icon = trigger.querySelector('.drawer-icon');
+            if (icon) {
+                icon.textContent = '+';
+            }
         });
     };
 
@@ -82,12 +86,16 @@ document.addEventListener('DOMContentLoaded', () => {
     drawerAccordionTriggers.forEach(trigger => {
         const parent = trigger.closest('.drawer-item');
         const panel = trigger.nextElementSibling;
+        const icon = trigger.querySelector('.drawer-icon');
         trigger.addEventListener('click', () => {
             const expanded = trigger.getAttribute('aria-expanded') === 'true';
             trigger.setAttribute('aria-expanded', (!expanded).toString());
             parent?.classList.toggle('open', !expanded);
             if (panel instanceof HTMLElement) {
                 panel.style.maxHeight = expanded ? '0px' : `${panel.scrollHeight}px`;
+            }
+            if (icon) {
+                icon.textContent = expanded ? '+' : '−';
             }
         });
     });
