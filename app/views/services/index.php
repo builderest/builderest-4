@@ -9,9 +9,14 @@
 </section>
 <section class="section services-section">
     <div class="container">
-        <?php $categoryAnchors = []; ?>
-        <div class="services-grid">
+        <?php
+        $totalServices = count($services);
+        $categoryAnchors = [];
+        $serviceIndex = 0;
+        ?>
+        <div class="services-grid" data-services-grid>
             <?php foreach ($services as $service): ?>
+                <?php $serviceIndex++; ?>
                 <?php $icon = !empty($service['icon']) ? $service['icon'] : '/assets/img/default-service.svg'; ?>
                 <?php
                 if (!empty($service['category']) && empty($categoryAnchors[$service['category']])) {
@@ -22,7 +27,20 @@
                     echo '<span id="smart-cameras" class="category-anchor"></span>';
                 }
                 ?>
-                <article class="service-card" id="<?= htmlspecialchars($service['slug']); ?>">
+                <?php
+                $serviceClasses = ['service-card'];
+                if ($serviceIndex <= 6) {
+                    $serviceClasses[] = 'is-visible';
+                } else {
+                    $serviceClasses[] = 'is-hidden';
+                }
+                ?>
+                <article
+                    class="<?= implode(' ', $serviceClasses); ?>"
+                    id="<?= htmlspecialchars($service['slug']); ?>"
+                    data-service-card
+                    data-service-index="<?= $serviceIndex - 1; ?>"
+                >
                     <div class="service-card__glow"></div>
                     <div class="service-card__inner">
                         <div class="service-card__header">
@@ -50,5 +68,10 @@
                 </article>
             <?php endforeach; ?>
         </div>
+        <?php if ($totalServices > 6): ?>
+            <div class="see-more-row">
+                <button class="btn btn-outline" type="button" id="services-see-more">See more</button>
+            </div>
+        <?php endif; ?>
     </div>
 </section>

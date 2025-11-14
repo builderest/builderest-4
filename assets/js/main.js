@@ -160,15 +160,64 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const SERVICE_BATCH = 6;
+    const serviceCards = Array.from(document.querySelectorAll('[data-service-card]'));
+    const servicesSeeMoreBtn = document.getElementById('services-see-more');
+
+    const showServiceCard = (card) => {
+        if (!card) return;
+        if (card.classList.contains('is-visible')) {
+            card.classList.remove('is-hidden');
+            return;
+        }
+        card.classList.remove('is-hidden');
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                card.classList.add('is-visible');
+            });
+        });
+    };
+
+    if (serviceCards.length) {
+        let visibleServiceCount = serviceCards.filter(card => card.classList.contains('is-visible')).length;
+
+        serviceCards.forEach(card => {
+            if (!card.classList.contains('is-visible')) {
+                card.classList.add('is-hidden');
+            }
+        });
+
+        const updateServicesButton = () => {
+            if (!servicesSeeMoreBtn) return;
+            servicesSeeMoreBtn.style.display = visibleServiceCount < serviceCards.length ? 'inline-flex' : 'none';
+        };
+
+        updateServicesButton();
+
+        servicesSeeMoreBtn?.addEventListener('click', () => {
+            const start = visibleServiceCount;
+            const end = Math.min(serviceCards.length, visibleServiceCount + SERVICE_BATCH);
+            for (let i = start; i < end; i += 1) {
+                showServiceCard(serviceCards[i]);
+            }
+            visibleServiceCount = end;
+            updateServicesButton();
+        });
+    }
+
     const filterButtons = document.querySelectorAll('.filter-btn');
     const pricingCards = Array.from(document.querySelectorAll('.pricing-card'));
     const seeMoreBtn = document.getElementById('pricing-see-more');
-    const PRICING_BATCH = 4;
-    let visiblePricingCount = PRICING_BATCH;
+    const PRICING_BATCH = 3;
+    let visiblePricingCount = pricingCards.filter(card => card.classList.contains('is-visible')).length || PRICING_BATCH;
 
     const showPricingCard = (card) => {
-        card.style.display = '';
-        card.classList.remove('is-visible');
+        if (!card) return;
+        if (card.classList.contains('is-visible')) {
+            card.classList.remove('is-hidden');
+            return;
+        }
+        card.classList.remove('is-hidden');
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 card.classList.add('is-visible');
@@ -177,12 +226,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const hidePricingCard = (card) => {
+        if (!card) return;
         card.classList.remove('is-visible');
-        card.style.display = 'none';
+        card.classList.add('is-hidden');
     };
 
     const applyPricingVisibility = () => {
         const activeCards = pricingCards.filter(card => !card.classList.contains('is-filtered'));
+        visiblePricingCount = Math.min(visiblePricingCount, activeCards.length);
         pricingCards.forEach(card => {
             if (card.classList.contains('is-filtered')) {
                 hidePricingCard(card);
@@ -213,6 +264,14 @@ document.addEventListener('DOMContentLoaded', () => {
             applyPricingVisibility();
         });
     });
+
+    if (pricingCards.length) {
+        pricingCards.forEach(card => {
+            if (!card.classList.contains('is-visible')) {
+                card.classList.add('is-hidden');
+            }
+        });
+    }
 
     if (seeMoreBtn) {
         applyPricingVisibility();

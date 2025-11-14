@@ -1633,11 +1633,17 @@ body.drawer-open .drawer-overlay {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 2.4rem;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 720px) {
+    .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1140px) {
     .services-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -1650,7 +1656,20 @@ body.drawer-open .drawer-overlay {
     background: rgba(6, 12, 24, 0.82);
     border: 1px solid rgba(255, 255, 255, 0.06);
     overflow: hidden;
-    transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+    transform: translateY(28px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s ease, opacity 0.35s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.service-card.is-hidden {
+    display: none;
 }
 
 .service-card__glow {
@@ -1820,17 +1839,18 @@ body.drawer-open .drawer-overlay {
 .pricing-grid {
     display: grid;
     gap: 2.4rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
-@media (min-width: 640px) {
+@media (min-width: 720px) {
     .pricing-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (min-width: 980px) {
+@media (min-width: 1140px) {
     .pricing-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
@@ -1844,6 +1864,10 @@ body.drawer-open .drawer-overlay {
     opacity: 0;
     pointer-events: none;
     transition: transform 0.35s ease, opacity 0.35s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card.is-hidden {
+    display: none;
 }
 
 .pricing-card__glow {
@@ -1965,10 +1989,17 @@ body.drawer-open .drawer-overlay {
     opacity: 1;
 }
 
-#pricing-see-more {
-    margin-top: 2rem;
+#pricing-see-more,
+#services-see-more {
+    margin-top: 0;
     border-radius: 999px;
     padding: 0.7rem 2.1rem;
+}
+
+.see-more-row {
+    margin-top: 2.4rem;
+    display: flex;
+    justify-content: center;
 }
 
 @media (max-width: 640px) {

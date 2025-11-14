@@ -14,9 +14,19 @@
             <button class="filter-btn" data-filter="business">Business</button>
             <button class="filter-btn" data-filter="installation">Installation</button>
         </div>
+        <?php $pricingIndex = 0; $pricingTotal = count($services); ?>
         <div class="pricing-grid" data-pricing-grid>
             <?php foreach ($services as $service): ?>
-                <article class="pricing-card" data-category="<?php echo htmlspecialchars($service['category']); ?>">
+                <?php $pricingIndex++; ?>
+                <?php
+                $pricingClasses = ['pricing-card'];
+                if ($pricingIndex <= 3) {
+                    $pricingClasses[] = 'is-visible';
+                } else {
+                    $pricingClasses[] = 'is-hidden';
+                }
+                ?>
+                <article class="<?php echo implode(' ', $pricingClasses); ?>" data-category="<?php echo htmlspecialchars($service['category']); ?>">
                     <div class="pricing-card__glow"></div>
                     <div class="pricing-card__inner">
                         <header class="pricing-card__header">
@@ -36,8 +46,10 @@
                 </article>
             <?php endforeach; ?>
         </div>
-        <div class="centered">
-            <button class="btn btn-outline" id="pricing-see-more">See more</button>
-        </div>
+        <?php if ($pricingTotal > 3): ?>
+            <div class="see-more-row">
+                <button class="btn btn-outline" type="button" id="pricing-see-more">See more</button>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
