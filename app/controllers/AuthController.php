@@ -2,15 +2,15 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Auth;
 use App\Helpers\Mailer;
-use App\Helpers\Auth as AuthHelper;
 use App\Models\User;
 
 class AuthController extends Controller
 {
     public function login(): void
     {
-        if (isset($_SESSION['admin_id'])) {
+        if (Auth::check()) {
             $this->redirect('/admin');
         }
 
@@ -26,9 +26,7 @@ class AuthController extends Controller
             if (!$user || !password_verify($password, $user['password'])) {
                 $errors['general'] = 'Invalid credentials. Please try again.';
             } else {
-                $_SESSION['admin_id'] = $user['id'];
-                $_SESSION['admin_name'] = $user['name'];
-                $_SESSION['admin_role'] = $user['role'];
+                Auth::login($user);
                 $this->redirect('/admin');
             }
         }
@@ -38,7 +36,7 @@ class AuthController extends Controller
 
     public function logout(): void
     {
-        AuthHelper::logout();
+        Auth::logout();
         $this->redirect('/admin/login');
     }
 

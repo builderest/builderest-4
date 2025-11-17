@@ -32,6 +32,7 @@ spl_autoload_register(function ($class) {
 
 use App\Core\App;
 use App\Core\Router;
+use App\Core\Guard;
 
 require_once __DIR__ . '/config/config.php';
 
@@ -41,12 +42,6 @@ require __DIR__ . '/config/routes.php';
 
 $app = new App($router);
 
-$app->registerMiddleware('auth', function () {
-    if (!isset($_SESSION['admin_id'])) {
-        header('Location: /admin/login');
-        return false;
-    }
-    return true;
-});
+$app->registerMiddleware('auth', [Guard::class, 'requireAdmin']);
 
 $app->run();
